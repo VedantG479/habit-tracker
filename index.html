@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Habit Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="app">
+  <div class="main">
+    <div class="header">
+      <h1>Habit Streak</h1>
+      <div class="date-strip">
+        <span>26</span>
+        <span>27</span>
+        <span>28</span>
+        <span>29</span>
+        <span class="active">30</span>
+        <span>31</span>
+      </div>
+    </div>
+
+    <div class="habit-list">
+      <div class="habit-card completed">
+        <div class="left">
+          <div class="checkbox checked"></div>
+          <span>🚿 Cold Shower</span>
+        </div>
+        <div class="streak">47 🔥</div>
+      </div>
+
+      <div class="habit-card">
+        <div class="left">
+          <div class="checkbox"></div>
+          <span>📖 Read a Book</span>
+        </div>
+        <div class="streak">38 🔥</div>
+      </div>
+
+      <div class="habit-card">
+        <div class="left">
+          <div class="checkbox"></div>
+          <span>🏋️ Gym Workout</span>
+        </div>
+        <div class="streak">65 🔥</div>
+      </div>
+
+      <div class="habit-card add">
+        <span>+  Add Habit</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights">
+    <h2>Insights</h2>
+    <div class="card heatmap">
+      <p>Activity</p>
+      <div class="grid">
+        <div></div><div></div><div class="active"></div><div></div>
+        <div class="active"></div><div></div><div></div><div class="active"></div>
+        <div></div><div></div><div class="active"></div><div></div>
+        <div class="active"></div><div></div><div></div><div class="active"></div>
+      </div>
+    </div>
+
+    <div class="card chart">
+      <p>Weekly Progress</p>
+      <div class="bars">
+        <div style="height:30%"></div>
+        <div style="height:60%"></div>
+        <div style="height:80%"></div>
+        <div style="height:50%"></div>
+        <div style="height:90%"></div>
+        <div style="height:40%"></div>
+        <div style="height:20%"></div>
+        <div style="height:30%"></div>
+        <div style="height:60%"></div>
+        <div style="height:80%"></div>
+        <div style="height:50%"></div>
+        <div style="height:90%"></div>
+        <div style="height:40%"></div>
+        <div style="height:20%"></div>
+      </div>
+    </div>
+
+    <div class="card top-habits">
+        <p class="title">Top Performing Habits</p>
+
+        <div class="top-item">
+            <div class="left">
+            <div class="rank">1</div>
+            <div class="info">
+                <span class="name">Read a Book 📖</span>
+                <span class="sub">43 days streak</span>
+            </div>
+            </div>
+            <div class="percent green">100%</div>
+        </div>
+
+        <div class="top-item">
+            <div class="left">
+            <div class="rank">2</div>
+            <div class="info">
+                <span class="name">Cold Shower 🚿</span>
+                <span class="sub">66 days streak</span>
+            </div>
+            </div>
+            <div class="percent yellow">71%</div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal hidden">
+  <div class="modal-content">
+
+    <h2>🏋️ Gym Workout</h2>
+
+    <!-- STREAK -->
+    <div class="stats">
+        <div>
+        <p>Current</p>
+        <h3>37 🔥</h3>
+        </div>
+        <div>
+        <p>Best</p>
+        <h3>37 🔥</h3>
+        </div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="info-card">
+        <p>Total Completions</p>
+        <h3>132</h3>
+    </div>
+
+    <!-- HEATMAP -->
+    <div class="heatmap-large">
+        <!-- You can generate via JS later -->
+    </div>
+
+    <!-- EXTRA DETAILS -->
+    <div class="details">
+        <div>
+        <p>Completion Rate</p>
+        <span>73%</span>
+        </div>
+        <div>
+        <p>Frequency</p>
+        <span>Daily</span>
+        </div>
+        <div>
+        <p>Created On</p>
+        <span>July 30, 2025</span>
+        </div>
+    </div>
+
+    <button class="close-btn">Close</button>
+  </div>
+</div>
+
+</body>
+</html>
