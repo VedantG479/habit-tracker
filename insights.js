@@ -33,8 +33,8 @@ function renderWeeklyProgress(){
             date += daysInPrevMonth
         }
 
-        let height = progressList.get(i + 1) * 10
-        weeklyHTML += `<div style="height:${height}%"></div>`
+        let height = (progressList.get(date + 1) + 1) * 10
+        weeklyHTML += `<div style="height:${Math.min(height, 100)}%"></div>`
     }
     weeklyBars.innerHTML = weeklyHTML
 }
@@ -45,7 +45,7 @@ function renderTopHabits(){
         const {title, precentProgress, bestStreak} = habitList[i]
         topHabitsHtml += `<div class="top-item">
                             <div class="left">
-                            <div class="rank">1</div>
+                            <div class="rank">${i + 1}</div>
                             <div class="info">
                                 <span class="name">${title}</span>
                                 <span class="sub">${bestStreak} days streak</span>

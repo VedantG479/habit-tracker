@@ -40,6 +40,10 @@ body {
   color: white;
 }
 
+.bar {
+    opacity: 40%;
+}
+
 .habit-list {
   margin-top: 30px;
   display: flex;
@@ -73,11 +77,44 @@ body {
   gap: 12px;
 }
 
-.add {
-    background: #ededed;
-    align-items: center;
-    justify-content: center;
-    color: #9e9e9e;
+.add-habit {
+  padding: 16px;
+  border-radius: 15px;
+  background: #e9e9e9;
+  cursor: text;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.add-habit:hover {
+  background: #f9f9f9;
+}
+
+.placeholder {
+  color: #888;
+  font-size: 14px;
+}
+
+.habit-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background: transparent;
+  display: none;
+}
+
+.add-habit.active {
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.add-habit.active .placeholder {
+  display: none;
+}
+
+.add-habit.active .habit-input {
+  display: block;
 }
 
 .checkbox {

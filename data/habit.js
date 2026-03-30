@@ -1,3 +1,6 @@
+import { renderHabits } from "../home.js"
+import { renderInsights } from "../insights.js"
+
 export let habitList = [{
     id: crypto.randomUUID(),
     createdAt: Date.now(),
@@ -42,27 +45,37 @@ export function addHabit(title){
         totalCompletions: 0,
         precentProgress: 0
     })
+    renderHabits()
+    renderInsights()
 }
 
 export function deleteHabit(id){
     habitList = habitList.filter((habit) => habit.id !== id)
+    renderHabits()
+    renderInsights()
 }
 
 export function finishHabit(id){ //sort habits based on completion percent
     let habit = getHabit(id)
     habit.currentStreak += 1
+    habit.today = true
     if(habit.currentStreak > habit.bestStreak){
         habit.bestStreak = habit.currentStreak
         habit.currentBest = true
     }
     habit.totalCompletions++
+    renderHabits()
+    renderInsights()
 }
 
 export function unFinishHabit(id){
     let habit = getHabit(id)
     habit.currentStreak--
+    habit.today = false
     if(habit.currentBest)   habit.bestStreak--
     habit.totalCompletions--
+    renderHabits()
+    renderInsights()
 }
 
 export function getHabit(id){
