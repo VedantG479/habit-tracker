@@ -1,11 +1,13 @@
-import { addHabit, finishHabit, habitList, unFinishHabit } from "./data/habit.js";
+import { addHabit, deleteHabit, finishHabit, habitList, unFinishHabit } from "./data/habit.js";
 import { changeProgress } from "./data/progress.js";
 import { renderInsights } from "./insights.js";
+import { renderModal, toggleModal } from "./modal.js";
 
 export let now = new Date();
 export let daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
 const dateStrip = document.querySelector('.date-strip')
 const habitsList = document.querySelector('.habit-list')
+let modalVisible = false;
 
 renderInsights()
 renderCalendar()
@@ -17,13 +19,28 @@ document.body.addEventListener('click', (e) => {
         const habitId = habitCard.dataset.habitId
         
         if(e.target.closest('.checkbox'))   toggleHabit(habitCard, habitId)
-        else    renderModal(habitId)
+        else{
+            renderModal(habitId)
+            modalVisible = true
+        }
     }
     else if(e.target.closest('.add-habit')){
         const addHabitCard = e.target.closest('.add-habit')
         addHabitCard.classList.add('active')
     }
-    else    addNewHabit()
+    else if(e.target.closest('.close-btn')){
+        toggleModal()
+        modalVisible = false;
+    }
+    else if(e.target.closest('.delete-btn')){
+        let habitToDelete = toggleModal()
+        deleteHabit(habitToDelete)
+        modalVisible = false;
+    }
+    else{
+        if(modalVisible)    toggleModal()
+        else    addNewHabit()
+    }   
 })
 
 document.body.addEventListener('keydown', (e) => {

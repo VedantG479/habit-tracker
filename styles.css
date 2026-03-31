@@ -240,6 +240,16 @@ body {
   cursor: pointer;
 }
 
+.delete-btn {
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #f64c4c;
+  color: white;
+  cursor: pointer;
+}
+
 /* INFO CARD */
 .info-card {
   background: #f9f9f9;
