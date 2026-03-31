@@ -1,6 +1,5 @@
 import { habitList } from "./data/habit.js"
-import { progressList } from "./data/progress.js"
-import { daysInCurrentMonth, now } from "./home.js"
+import { monthlyProgress } from "./data/progress.js"
 
 const activityCard = document.querySelector('.grid')
 const weeklyBars = document.querySelector('.bars')
@@ -14,26 +13,17 @@ export function renderInsights(){
 
 function renderActivityGrid(){
     let activityHTML = ""
-    for(let i = 0; i < daysInCurrentMonth; i++){
-        if(progressList.get(i + 1) > 0){
-            activityHTML += `<div class='active'></div>`
-        }
+    for(let i = 0; i < monthlyProgress.length; i++){
+        if(monthlyProgress[i] > 0) activityHTML += `<div class='active'></div>`
         else    activityHTML += "<div></div>"
     }
     activityCard.innerHTML = activityHTML
 }
 
 function renderWeeklyProgress(){
-    let currentDate = now.getDate()
     let weeklyHTML = ""
     for(let i = 13; i >=0; i--){
-        let date = currentDate - i
-        if(date < 1){
-            let daysInPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate()
-            date += daysInPrevMonth
-        }
-
-        let height = (progressList.get(date + 1) + 1) * 10
+        let height = (monthlyProgress[31- i] + 1) * 10
         weeklyHTML += `<div style="height:${Math.min(height, 100)}%"></div>`
     }
     weeklyBars.innerHTML = weeklyHTML

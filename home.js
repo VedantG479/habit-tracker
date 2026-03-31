@@ -1,17 +1,19 @@
-import { addHabit, deleteHabit, finishHabit, habitList, unFinishHabit } from "./data/habit.js";
-import { changeProgress } from "./data/progress.js";
+import { addHabit, dayEnded, deleteHabit, finishHabit, habitList, unFinishHabit } from "./data/habit.js";
+import { changeProgress, dayEnd } from "./data/progress.js";
 import { renderInsights } from "./insights.js";
 import { renderModal, toggleModal } from "./modal.js";
 
-export let now = new Date();
-export let daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+let now = new Date();
+let daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
 const dateStrip = document.querySelector('.date-strip')
 const habitsList = document.querySelector('.habit-list')
 let modalVisible = false;
+let midnightTimer = null
 
 renderInsights()
 renderCalendar()
 renderHabits()
+scheduleMidnightRefresh();
 
 document.body.addEventListener('click', (e) => {
     if(e.target.closest('.habit-card')){
@@ -38,7 +40,10 @@ document.body.addEventListener('click', (e) => {
         modalVisible = false;
     }
     else{
-        if(modalVisible)    toggleModal()
+        if(modalVisible){
+            toggleModal()
+            modalVisible = false
+        }
         else    addNewHabit()
     }   
 })
@@ -69,7 +74,7 @@ export function renderHabits(){
                                         </div>`
 }
 
-export function renderCalendar(){
+function renderCalendar(){
     let currentDate = now.getDate()
     let dateStripHtml = ""
     let firstDate = false
@@ -93,11 +98,11 @@ export function renderCalendar(){
 function toggleHabit(habitCard, habitId){
     const habitCheck = habitCard.querySelector('.checkbox')
     if(habitCheck.classList.contains('checked')){
-        changeProgress(now.getDate(), -1)
+        changeProgress(habitId, -1)
         unFinishHabit(habitId)
     }
     else{
-        changeProgress(now.getDate(), 1)
+        changeProgress(habitId, 1)
         finishHabit(habitId)
     }
 }
@@ -106,11 +111,38 @@ function addNewHabit(){
     const addHabitCard = document.querySelector('.add-habit')
     if(addHabitCard.classList.contains('active')){
         const habitInput = addHabitCard.querySelector('.habit-input').value
-        if(habitInput.trim()){
-            addHabit(habitInput.trim())
-            renderHabits()
-            renderInsights()
-        }
+        if(habitInput.trim())   addHabit(habitInput.trim())
     }
     addHabitCard.classList.remove('active')
+}
+
+function scheduleMidnightRefresh() {
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+    const msToMidnight = midnight.getTime() - now.getTime();
+
+    midnightTimer = setTimeout(() => {
+        updateCalendarUI(); 
+        scheduleMidnightRefresh();
+    }, msToMidnight);
+}
+
+let currentDay = new Date().getDate();
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        const now = new Date();
+        if (now.getDate() !== currentDay) {
+            currentDay = now.getDate();
+            updateCalendarUI();
+            
+            if(midnightTimer)   clearTimeout(midnightTimer);
+            scheduleMidnightRefresh();
+        }
+    }
+});
+
+function updateCalendarUI() {
+    console.log("Day ended. Refreshing calendar...");
+    dayEnded()
+    dayEnd()
+    renderCalendar()
 }

@@ -147,7 +147,6 @@ body {
   margin-top: 20px;
 }
 
-/* HEATMAP */
 .grid {
   display: grid;
   grid-template-columns: repeat(14, 15px);

@@ -1,4 +1,5 @@
 import { getHabit } from "./data/habit.js"
+import { habitProgress } from "./data/progress.js"
 
 const modal = document.querySelector('.modal')
 let modalHabitId
@@ -26,6 +27,13 @@ export function renderModal(habitId){
                                     <h3>${totalCompletions}</h3>
                                 </div>
 
+                                <div class="card heatmap">
+                                    <p>Activity</p>
+                                    <div class="grid">
+                                    ${renderHeatMapActivity(id)}
+                                    </div>
+                                </div>
+
                                 <div class="details">
                                     <div>
                                     <p>Completion Rate</p>
@@ -47,4 +55,14 @@ export function toggleModal(){
     let id = modalHabitId
     modalHabitId = null
     return id
+}
+
+function renderHeatMapActivity(id){
+    let habitProgressArray = habitProgress.get(id)
+    let activityHTML = ""
+    for(let i = 0; i < habitProgressArray.length; i++){
+        if(habitProgressArray[i] > 0) activityHTML += `<div class='active'></div>`
+        else    activityHTML += "<div></div>"
+    }
+    return activityHTML
 }
