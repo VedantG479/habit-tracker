@@ -23,7 +23,8 @@ export function addHabit(title){
 }
 
 export function deleteHabit(id){
-    deleteHabitProgress(id, getHabit(id).history)
+    let habit = getHabit(id)
+    deleteHabitProgress(id, habit.history, habit.daysPassed)
     habitList = habitList.filter((habit) => habit.id !== id)
     saveToStorage()
 }

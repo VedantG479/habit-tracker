@@ -14,7 +14,7 @@ export function renderInsights(){
 function renderActivityGrid(){
     let activityHTML = ""
     for(let i = 0; i < monthlyProgress.length; i++){
-        if(monthlyProgress[i] > 0) activityHTML += `<div class='active'></div>`
+        if(monthlyProgress[i].habitCompleted > 0) activityHTML += `<div class='active'></div>`
         else    activityHTML += "<div></div>"
     }
     activityCard.innerHTML = activityHTML
@@ -23,7 +23,10 @@ function renderActivityGrid(){
 function renderWeeklyProgress(){
     let weeklyHTML = ""
     for(let i = 13; i >=0; i--){
-        let height = (monthlyProgress[89 - i] + 1) * 10
+        let height = 1
+        const {habitCompleted, totalHabits} = monthlyProgress[89 - i]
+        if(totalHabits != 0 && habitCompleted != 0)   height = (((habitCompleted)/totalHabits)*100).toFixed()
+    
         weeklyHTML += `<div style="height:${Math.min(height, 100)}%"></div>`
     }
     weeklyBars.innerHTML = weeklyHTML

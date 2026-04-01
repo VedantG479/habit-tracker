@@ -89,7 +89,7 @@ function renderCalendar(){
             date -= daysInCurrentMonth
         }
         if(date == 1 && firstDate)   dateStripHtml += `<span class='bar'> | </span>`
-        dateStripHtml += `<span ${i==0 ? `class=active` : ``}>${date}</span>`
+        dateStripHtml += `<span ${i==0 ? `class=active` : ``}>${date < 10 ? '0' + date : date}</span>`
         firstDate = true
     }
     dateStrip.innerHTML = dateStripHtml
