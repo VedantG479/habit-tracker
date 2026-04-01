@@ -1,5 +1,4 @@
-export let monthlyProgress = JSON.parse(localStorage.getItem('monthlyProgress')) || Array(90).fill({habitCompleted: 0, totalHabits: 0})
-
+export let monthlyProgress = JSON.parse(localStorage.getItem('monthlyProgress')) || Array(90).fill().map(() => ({habitCompleted: 0, totalHabits: 0}))
 export let habitProgress = new Map(JSON.parse(localStorage.getItem('habitProgress'))) || new Map()
 
 export function changeProgress(habitId, change){

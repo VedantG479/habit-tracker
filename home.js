@@ -8,12 +8,11 @@ let daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getD
 const dateStrip = document.querySelector('.date-strip')
 const habitsList = document.querySelector('.habit-list')
 let modalVisible = false;
-let midnightTimer = null
+let midnightTimer = null;
 
 renderInsights()
 renderCalendar()
 renderHabits()
-scheduleMidnightRefresh();
 
 document.body.addEventListener('click', (e) => {
     if(e.target.closest('.habit-card')){
@@ -116,33 +115,37 @@ function addNewHabit(){
     addHabitCard.classList.remove('active')
 }
 
-function scheduleMidnightRefresh() {
-    if (midnightTimer) clearTimeout(midnightTimer);
-    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
-    const msToMidnight = midnight.getTime() - now.getTime();
-
-    midnightTimer = setTimeout(() => {
-        updateCalendarUI(); 
-        scheduleMidnightRefresh();
-    }, msToMidnight);
-}
-
-let currentDay = new Date().getDate();
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        const now = new Date();
-        if (now.getDate() !== currentDay) {
-            currentDay = now.getDate();
-            updateCalendarUI();
-            
-            scheduleMidnightRefresh();
-        }
-    }
-});
-
-function updateCalendarUI() {
+function onNewDay(){
     console.log("Day ended. Refreshing calendar...");
     dayEnded()
     dayEnd()
     renderCalendar()
 }
+
+function scheduleMidnightUpdate(){
+    if(midnightTimer) clearTimeout(midnightTimer);
+
+    const nextMidnight = new Date();
+    nextMidnight.setHours(24, 0, 0, 0);
+    const delay = nextMidnight - now;
+
+    midnightTimer = setTimeout(() => {
+                        onNewDay();
+                        scheduleMidnightUpdate();
+                    }, delay);
+}
+
+function checkDayChange() {
+    const lastDate = localStorage.getItem("lastActiveDate");
+    if(lastDate && lastDate !== new Date().toDateString())  onNewDay()
+    localStorage.setItem("lastActiveDate", new Date().toDateString());
+}
+
+window.addEventListener("load", () => {
+    checkDayChange();    
+    scheduleMidnightUpdate();
+});
+
+window.addEventListener("focus", () => {
+    checkDayChange();
+});
