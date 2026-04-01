@@ -7,18 +7,18 @@ let modalHabitId
 export function renderModal(habitId){
     toggleModal()
 
-    let {id, title, currentStreak, bestStreak, totalCompletions, createdAt,precentProgress} = getHabit(habitId)
+    let {id, title, currentStreak, bestStreak, totalCompletions, createdAt, daysPassed} = getHabit(habitId)
     modalHabitId = habitId
     let modalContentHtml = `<div class="modal-content" data-habit-id="${id}">
                                 <h2>${title}</h2>
                                 <div class="stats">
                                     <div>
-                                    <p>Current</p>
-                                    <h3>${currentStreak} 🔥</h3>
+                                        <p>Current</p>
+                                        <h3>${currentStreak} 🔥</h3>
                                     </div>
                                     <div>
-                                    <p>Best</p>
-                                    <h3>${bestStreak} 🔥</h3>
+                                        <p>Best</p>
+                                        <h3>${bestStreak} 🔥</h3>
                                     </div>
                                 </div>
 
@@ -27,9 +27,9 @@ export function renderModal(habitId){
                                     <h3>${totalCompletions}</h3>
                                 </div>
 
-                                <div class="card heatmap">
+                                <div class="info-card activity">
                                     <p>Activity</p>
-                                    <div class="grid">
+                                    <div class="heatmap-large">
                                     ${renderHeatMapActivity(id)}
                                     </div>
                                 </div>
@@ -37,11 +37,11 @@ export function renderModal(habitId){
                                 <div class="details">
                                     <div>
                                     <p>Completion Rate</p>
-                                    <span>${precentProgress}%</span>
+                                    <h4>${((totalCompletions * 100)/daysPassed).toFixed()}%</h4>
                                     </div>
                                     <div>
                                     <p>Created On</p>
-                                    <span>${createdAt}</span>
+                                    <h4>${createdAt}</h4>
                                     </div>
                                 </div>
                                 <button class="delete-btn">Delete</button>

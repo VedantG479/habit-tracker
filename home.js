@@ -117,6 +117,7 @@ function addNewHabit(){
 }
 
 function scheduleMidnightRefresh() {
+    if (midnightTimer) clearTimeout(midnightTimer);
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
     const msToMidnight = midnight.getTime() - now.getTime();
 
@@ -134,7 +135,6 @@ document.addEventListener("visibilitychange", () => {
             currentDay = now.getDate();
             updateCalendarUI();
             
-            if(midnightTimer)   clearTimeout(midnightTimer);
             scheduleMidnightRefresh();
         }
     }

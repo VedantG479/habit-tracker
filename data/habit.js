@@ -1,6 +1,6 @@
 import { renderHabits } from "../home.js"
 import { renderInsights } from "../insights.js"
-import { habitProgress } from "./progress.js"
+import { addHabitProgress, deleteHabitProgress} from "./progress.js"
 
 export let habitList = JSON.parse(localStorage.getItem('habitList')) || []
 
@@ -15,16 +15,16 @@ export function addHabit(title){
         currentStreak: 0,
         bestStreak: 0,
         totalCompletions: 0,
-        precentProgress: 0,
-        daysPassed: 1
+        daysPassed: 1, 
+        history: Array(90).fill(0)
     })
-    habitProgress.set(id, Array(31).fill(0))
+    addHabitProgress(id)
     saveToStorage()
 }
 
 export function deleteHabit(id){
+    deleteHabitProgress(id, getHabit(id).history)
     habitList = habitList.filter((habit) => habit.id !== id)
-    habitProgress.delete(id)
     saveToStorage()
 }
 
@@ -37,7 +37,7 @@ export function finishHabit(id){
         habit.currentBest = true
     }
     habit.totalCompletions++
-    habit.precentProgress = ((habit.totalCompletions * 100)/habit.daysPassed).toFixed()
+    habit.history[89]++
     saveToStorage()
 }
 
@@ -47,7 +47,7 @@ export function unFinishHabit(id){
     habit.today = false
     if(habit.currentBest)   habit.bestStreak--
     habit.totalCompletions--
-    habit.precentProgress = ((habit.totalCompletions * 100)/habit.daysPassed).toFixed()
+    habit.history[89]--
     saveToStorage()
 }
 
@@ -62,13 +62,13 @@ export function getHabit(id){
 export function dayEnded(){
     habitList.forEach((habit) => {
         habit.daysPassed++
+        habit.history.shift()
         if(habit.today) habit.today = false
         else{
             habit.currentStreak = 0
             habit.currentBest = false
             habit.today = false
         }
-        habit.precentProgress = ((habit.totalCompletions * 100)/habit.daysPassed).toFixed()
     })
     saveToStorage()
 }

@@ -23,7 +23,7 @@ function renderActivityGrid(){
 function renderWeeklyProgress(){
     let weeklyHTML = ""
     for(let i = 13; i >=0; i--){
-        let height = (monthlyProgress[31- i] + 1) * 10
+        let height = (monthlyProgress[89 - i] + 1) * 10
         weeklyHTML += `<div style="height:${Math.min(height, 100)}%"></div>`
     }
     weeklyBars.innerHTML = weeklyHTML
@@ -32,17 +32,25 @@ function renderWeeklyProgress(){
 function renderTopHabits(){
     let topHabitsHtml = '<p class="title">Top Performing Habits</p>'
     for(let i = 0; i < habitList.length && i < 5; i++){
-        const {title, precentProgress, bestStreak} = habitList[i]
+        const {title, precentProgress, bestStreak, totalCompletions, daysPassed} = habitList[i]
+        let progress = ((totalCompletions * 100)/daysPassed).toFixed()
+
         topHabitsHtml += `<div class="top-item">
                             <div class="left">
-                            <div class="rank">${i + 1}</div>
-                            <div class="info">
-                                <span class="name">${title}</span>
-                                <span class="sub">${bestStreak} days streak</span>
+                                <div class="rank">${i + 1}</div>
+                                <div class="info">
+                                    <span class="name">${title}</span>
+                                    <span class="sub">${bestStreak} days streak</span>
+                                </div>
                             </div>
-                            </div>
-                            <div class="percent green">${precentProgress}%</div>
+                            <div class="percent ${percentColor(progress)}">${progress}%</div>
                         </div>`
     }
     topHabitsCard.innerHTML = topHabitsHtml
+}
+
+function percentColor(progress){
+    if(progress < 50)   return 'red'
+    else if(progress <= 75)  return 'yellow'
+    return 'green'
 }
