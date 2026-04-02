@@ -7,15 +7,21 @@
 
 body {
   background: #f5f5f5;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.main, .insights {
+  overflow-y: visible;
 }
 
 .app {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .main {
-  width: 75%;
+  flex: 3;
   padding: 30px;
 }
 
@@ -133,7 +139,7 @@ body {
 
 /* INSIGHTS */
 .insights {
-  width: 25%;
+  flex: 1;
   padding: 20px;
   background: #fafafa;
   border-left: 1px solid #eee;
@@ -154,7 +160,7 @@ body {
 /* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(18, 14px);
+  grid-template-columns: repeat(auto-fit, minmax(12px, 1fr));
   gap: 2px;
   margin-top: 25px;
   justify-content: center;
@@ -260,6 +266,7 @@ body {
 
 .modal-content {
   width: 320px;
+  max-width: 90%;
   background: white;
   padding: 25px;
   transform: scale(0.9);
@@ -343,3 +350,61 @@ body {
   margin-top: 10px;
   font-size: 14px;
 }
+
+@media (max-width: 1024px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .main {
+    flex: none;
+    height: 65%;
+  }
+
+  .insights {
+    flex: none;
+    height: 35%;
+    border-left: none;
+    border-top: 1px solid #eee;
+  }
+
+  .main, .insights {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .main {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  .insights {
+    display: none; /* 🔥 Clean approach */
+  }
+
+  .main, .insights {
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .habit-card {
+    padding: 14px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .date-strip span {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+

@@ -25,7 +25,7 @@ function renderWeeklyProgress(){
     for(let i = 13; i >=0; i--){
         let height = 1
         const {habitCompleted, totalHabits} = monthlyProgress[89 - i]
-        if(totalHabits != 0 && habitCompleted != 0)   height = (((habitCompleted)/totalHabits)*100).toFixed()
+        if(totalHabits != 0 && habitCompleted != 0)   height = ((habitCompleted/totalHabits)*100).toFixed()
     
         weeklyHTML += `<div style="height:${Math.min(height, 100)}%"></div>`
     }

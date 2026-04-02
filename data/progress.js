@@ -28,8 +28,14 @@ export function deleteHabitProgress(id, history, daysHabit){
 
 export function dayEnd(){
     monthlyProgress.shift()
+    monthlyProgress.push({
+        habitCompleted: 0,
+        totalHabits: 0
+    })
+
     habitProgress.forEach((habitProg) => {
         habitProg.shift()
+        habitProg.push(0)
     })
     saveToStorage()
 }
