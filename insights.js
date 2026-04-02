@@ -1,4 +1,4 @@
-import { habitList } from "./data/habit.js"
+import { getHabit, habitList } from "./data/habit.js"
 import { monthlyProgress } from "./data/progress.js"
 
 const activityCard = document.querySelector('.grid')
@@ -34,21 +34,33 @@ function renderWeeklyProgress(){
 
 function renderTopHabits(){
     let topHabitsHtml = '<p class="title">Top Performing Habits</p>'
-    for(let i = 0; i < habitList.length && i < 5; i++){
-        const {title, precentProgress, bestStreak, totalCompletions, daysPassed} = habitList[i]
-        let progress = ((totalCompletions * 100)/daysPassed).toFixed()
+    let habitsProgressUI = []
 
-        topHabitsHtml += `<div class="top-item">
+    for(let i = 0; i < habitList.length; i++){
+        const {id, totalCompletions, daysPassed} = habitList[i]
+        let progress = Number(((totalCompletions * 100)/daysPassed).toFixed())
+        
+        habitsProgressUI.push({progress, id})
+    }
+
+    habitsProgressUI.sort((a, b) => b.progress - a.progress)
+        .slice(0, 5) 
+        .forEach((item, index) => {
+            let habit = getHabit(item.id)
+            const {title, bestStreak} = habit
+
+            let habitsHTML = `<div class="top-item">
                             <div class="left">
-                                <div class="rank">${i + 1}</div>
+                                <div class="rank">${index + 1}</div>
                                 <div class="info">
                                     <span class="name">${title}</span>
                                     <span class="sub">${bestStreak} days streak</span>
                                 </div>
                             </div>
-                            <div class="percent ${percentColor(progress)}">${progress}%</div>
+                            <div class="percent ${percentColor(item.progress)}">${item.progress}%</div>
                         </div>`
-    }
+            topHabitsHtml += habitsHTML
+        })
     topHabitsCard.innerHTML = topHabitsHtml
 }
 
